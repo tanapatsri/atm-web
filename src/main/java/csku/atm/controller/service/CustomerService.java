@@ -34,14 +34,14 @@ public class CustomerService {
         return BCrypt.hashpw(pin,salt);
     }
 
-    public Customer findCustomer(int id){
+    public Customer findCustomer(int id) {
         try {
-            return repository.findById(id);
-        } catch (EmptyResultDataAccessException e) {
+            return repository.findById(id).get();
+        } catch (NoSuchElementException e) {
             return null;
         }
-
     }
+
 
     public Customer checkPin(Customer loginCustomer){
         Customer storedCustomer = findCustomer(loginCustomer.getId());

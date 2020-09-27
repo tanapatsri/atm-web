@@ -1,5 +1,8 @@
 package csku.atm.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 public class Customer {
     private int id;
     private String name;
