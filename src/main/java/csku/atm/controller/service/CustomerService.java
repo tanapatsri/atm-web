@@ -1,8 +1,10 @@
 package csku.atm.controller.service;
 
 
+import csku.atm.controller.data.CustomerRepository;
 import csku.atm.model.Customer;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -12,23 +14,19 @@ import java.util.List;
 @Service
 public class CustomerService {
 
-    private ArrayList<Customer> customerList;
+    private CustomerRepository repository;
 
 
-    @PostConstruct
-    public void postConstruct(){
-        this.customerList = new ArrayList<>();
-    }
 
     public void createCustomer(Customer customer){
         //hash pin for customer
         String hashPin = hash(customer.getPin());
         customer.setPin(hashPin);
-        customerList.add(customer);
+        repository.save(customer);
     }
 
     public List<Customer> getCustomers(){
-        return new ArrayList<>(this.customerList);
+        return repository.findAll();
     }
 
     private String hash(String pin) {
@@ -37,12 +35,12 @@ public class CustomerService {
     }
 
     public Customer findCustomer(int id){
-        for(Customer customer:customerList){
-            if(customer.getId() == id){
-                return customer;
-            }
+        try {
+            return repository.findById(id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
-        return null;
+
     }
 
     public Customer checkPin(Customer loginCustomer){
