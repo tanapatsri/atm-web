@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 
 @Service
 public class CustomerService {
+
     private CustomerRepository repository;
 
     public CustomerService(CustomerRepository repository) {
@@ -20,26 +21,28 @@ public class CustomerService {
     }
 
     public void createCustomer(Customer customer){
-        //...hash pin for customer...
         String hashPin = hash(customer.getPin());
         customer.setPin(hashPin);
         repository.save(customer);
     }
 
-    public List<Customer> getCustomers(){
+    public Customer findCustomer(int id){
+        try{
+            return repository.findById(id).get();
+        } catch(NoSuchElementException e){
+            return null;
+        }
+
+    }
+
+    public List<Customer> getCustomers() {
         return repository.findAll();
     }
 
-    public Customer findCustomer(int id){
-        try {
-            return repository.findById(id).get();
-        }catch (NoSuchElementException e){
-            return null;
-        }
-    }
 
     public Customer checkPin(Customer inputCustomer){
         Customer storedCustomer = findCustomer(inputCustomer.getId());
+
         if(storedCustomer != null){
             String hashPin = storedCustomer.getPin();
 
@@ -52,6 +55,6 @@ public class CustomerService {
 
     private String hash(String pin){
         String salt = BCrypt.gensalt(12);
-        return BCrypt.hashpw(pin, salt);
+        return BCrypt.hashpw(pin,salt);
     }
 }

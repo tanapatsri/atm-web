@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import th.ac.ku.atm.model.BankAccount;
+import th.ac.ku.atm.model.Customer;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -19,14 +20,15 @@ public class BankAccountService {
     }
 
     public List<BankAccount> getCustomerBankAccount(int customerId){
-        String url = "http://localhost:8091/api/bankaccount/customer/"+customerId;
-        ResponseEntity<BankAccount[]> response = restTemplate.getForEntity(url, BankAccount[].class);
+        //connect to BankAccount API Service
+        String url = "http://localhost:8091/api/bankaccount/customer/" + customerId;
+
+        ResponseEntity<BankAccount[]> response =
+                restTemplate.getForEntity(url, BankAccount[].class);
 
         BankAccount[] accounts = response.getBody();
-
         return Arrays.asList(accounts);
     }
-
 
     public List<BankAccount> getBankAccounts() {
         String url = "http://localhost:8091/api/bankaccount/";
@@ -39,41 +41,38 @@ public class BankAccountService {
     }
 
 
+
     public void openAccount(BankAccount bankAccount) {
         String url = "http://localhost:8091/api/bankaccount";
+
         restTemplate.postForObject(url, bankAccount, BankAccount.class);
     }
 
-    public BankAccount getBankAccount(int id){
-        String url = "http://localhost:8091/api/bankaccount/"+id;
+    public BankAccount getBankAccount(int id) {
+        String url = "http://localhost:8091/api/bankaccount/" + id;
 
         ResponseEntity<BankAccount> response =
                 restTemplate.getForEntity(url, BankAccount.class);
+
         return response.getBody();
     }
 
-    public void editBankAccount(BankAccount bankAccount){
-        String url = "http://localhost:8091/api/bankaccount/"+bankAccount.getId();
+    public void editBankAccount(BankAccount bankAccount) {
+        String url = "http://localhost:8091/api/bankaccount/" +
+                bankAccount.getId();
         restTemplate.put(url, bankAccount);
     }
 
-    public void deposit(BankAccount bankAccount, double money){
-        String url = "http://localhost:8091/api/bankaccount/"+bankAccount.getId();
-        BankAccount storedAccount = restTemplate.getForObject(url, BankAccount.class);
-        storedAccount.deposit(money);
-        restTemplate.put(url, storedAccount);
-    }
-
-    public  void withdraw(BankAccount bankAccount, double money){
-        String url = "http://localhost:8091/api/bankaccount/"+bankAccount.getId();
-        BankAccount storedAccount = restTemplate.getForObject(url, BankAccount.class);
-        storedAccount.withdraw(money);
-        restTemplate.put(url, storedAccount);
-    }
-
-    public void deleteBankAccount(BankAccount bankAccount){
-        String url = "http://localhost:8091/api/bankaccount/"+bankAccount.getId();
+    public void deleteBankAccount(BankAccount bankAccount) {
+        String url = "http://localhost:8091/api/bankaccount/" +
+                bankAccount.getId();
         restTemplate.delete(url, bankAccount);
     }
+
+
+
+
+
+
 
 }

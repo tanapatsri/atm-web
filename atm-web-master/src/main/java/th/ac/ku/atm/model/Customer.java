@@ -8,7 +8,6 @@ public class Customer {
 
     @Id
     private int id;
-
     private String name;
     private String pin;
 
@@ -24,32 +23,23 @@ public class Customer {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getPin() {
-        return pin;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPin(String pin) {
-        this.pin = pin;
+    public String getPin() {
+        return pin;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", pin='" + pin + '\'' +
-                '}';
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 }

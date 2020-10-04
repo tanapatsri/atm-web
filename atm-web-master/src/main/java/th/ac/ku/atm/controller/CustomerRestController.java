@@ -1,6 +1,5 @@
 package th.ac.ku.atm.controller;
 
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerRestController {
+
     private CustomerService customerService;
 
     public CustomerRestController(CustomerService customerService) {
@@ -20,7 +20,7 @@ public class CustomerRestController {
     }
 
     @GetMapping
-    public List<Customer> getALl(){
+    public List<Customer> getAll(){
         return customerService.getCustomers();
     }
 
