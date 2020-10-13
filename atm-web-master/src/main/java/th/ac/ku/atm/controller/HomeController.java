@@ -9,7 +9,7 @@ public class HomeController {
 
     @RequestMapping("/home")
     public String getHomePage(Model model) {
-        model.addAttribute("greeting","Sawaddee");
-        return "home"; // return home template(home.html)
+        model.addAttribute("greeting", "Welcome to Kendo's Banking Service !");
+        return "home";              // home template (home.html)
     }
 }

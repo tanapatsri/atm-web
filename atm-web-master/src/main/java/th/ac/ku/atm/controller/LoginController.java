@@ -23,29 +23,27 @@ public class LoginController {
     }
 
     @GetMapping
-    public String getLoginPage(){
+    public String getLoginPage() {
         return "login";
     }
 
     @PostMapping
-    public String login(@ModelAttribute Customer customer, Model model){
-        Customer matchingCustomer = customerService.checkPin(customer);
+    public String login(@ModelAttribute Customer customer,
+                        Model model) {
+        Customer storedCustomer = customerService.checkPin(customer);
 
-        if(matchingCustomer!=null){
+        if (storedCustomer != null) {
             model.addAttribute("customertitle",
-                    matchingCustomer.getName() + "Bank Accounts");
+                    storedCustomer.getName() + " Bank Accounts");
             model.addAttribute("bankaccounts",
                     bankAccountService.getCustomerBankAccount(customer.getId()));
-
             return "customeraccount";
-        }
-
-        else{
-            model.addAttribute("greeting",
-                    "Can't find customer");
+        } else {
+            model.addAttribute("greeting", "Can't find customer");
             return "home";
         }
 
 
     }
+
 }

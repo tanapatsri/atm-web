@@ -8,10 +8,11 @@ public class Customer {
 
     @Id
     private int id;
+
     private String name;
     private String pin;
 
-    public Customer(){}
+    public Customer() {}
 
     public Customer(int id, String name, String pin) {
         this.id = id;
@@ -42,4 +43,14 @@ public class Customer {
     public void setPin(String pin) {
         this.pin = pin;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pin='" + pin + '\'' +
+                '}';
+    }
+
 }
